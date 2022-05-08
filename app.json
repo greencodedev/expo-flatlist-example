@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "test",
+    "owner": "freshexpocode",
     "slug": "test",
     "version": "1.0.0",
     "orientation": "portrait",
