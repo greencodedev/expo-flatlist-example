@@ -33,7 +33,7 @@ const ItemList = ({ title, data }: any) => {
 const WalletList = () => {
   const [loading, setLoading] = useState(false);
   const [selectedCate, setSelectedCate] = useState(listData[0].id);
-  const [refFlatList, setRef] = useState<any>();
+  const refFlatList = useRef<any>();
   const [stickyFlag, setStickyFlag] = useState<boolean>(false);
 
   const fetchAllData = () => {
@@ -51,13 +51,11 @@ const WalletList = () => {
 
   // when select tab, go to the related data
   useEffect(() => {
-    refFlatList?.scrollToIndex({ animated: true, index: selectedCate - 1 });
+    refFlatList?.current.scrollToIndex({
+      animated: true,
+      index: selectedCate - 1,
+    });
   }, [selectedCate]);
-
-  const handleChanged = ({ viewableItems, changed }: any) => {
-    console.log(viewableItems);
-    console.log(changed);
-  };
 
   return (
     <View style={tw`px-4`}>
@@ -71,8 +69,6 @@ const WalletList = () => {
         </View>
       )}
       <FlatList
-        // stickyHeaderComponent={1}
-        // stickyHeaderIndices={[0]}
         ListHeaderComponent={
           <>
             <Header loading={loading} />
@@ -89,7 +85,7 @@ const WalletList = () => {
         keyExtractor={(item: any) => item.id}
         onRefresh={fetchAllData}
         refreshing={loading}
-        ref={(ref: any) => setRef(ref)}
+        ref={refFlatList}
         onScroll={({ nativeEvent }: any) =>
           setStickyFlag(nativeEvent.contentOffset.y > 340)
         }
